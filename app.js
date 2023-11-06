@@ -17,7 +17,6 @@ app.use(bodyParser.json());
 app.use(cors({
   origin: 'http://127.0.0.1:5500',
 }));
-
 // app.use(function (req, res, next) {
 //   req.header("content-type", "html/text");
 //   res.setHeader("Content-Type", "application/json");
