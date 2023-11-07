@@ -56,7 +56,6 @@ app.use(cors({
 
 app.post('/post', (req, res) => {
   
-
     try {
         
         console.log(req.body.title);
