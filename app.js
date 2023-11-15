@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 // }));
 
 app.use(cors({
-  origin: 'http://127.0.0.1:5500',
+  origin: ['http://127.0.0.1:5500','https://juanluisja.live/blog/'],
 }));
 // app.use(function (req, res, next) {
 //   req.header("content-type", "html/text");
@@ -54,26 +54,41 @@ app.use(cors({
  * @return 200 if success, body{title, author_id}
 */
 
-app.post('/post', (req, res) => {
-  
-    try {
-        
-        console.log(req.body.title);
-        const { title, content, author_id } = req.body;
-        sql = `INSERT INTO posts (title, content, author_id) VALUES (?, ?, ?)`;
-        db.run(sql, [title, content, author_id],err => {
-          if (err) {
-            return res.status(300).json({message: err.message});
-          }
-          console.log('Post created successfully, by author_id: ', author_id, title);
-        });
-        return res.status(200).json({ message: 'Post created successfully' })
-        } catch (error) {
-      console.error(error.message);
-      return res.status(400).json({ error: error.message })
-    }
+app.post('/post', async (req, res) => {
+  try {
+      const { title, content, author_id } = req.body;
+      sql = `INSERT INTO posts (title, content, author_id) VALUES (?, ?, ?)`;
 
+      await db.run(sql, [title, content, author_id]);
+
+      console.log('Post created successfully, by author_id:', author_id, title);
+      return res.status(200).json({ message: 'Post created successfully' });
+  } catch (error) {
+      console.error('Error creating post:', error.message);
+      return res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
+
+// app.post('/post', (req, res) => {
+
+//     try {
+        
+//         console.log(req.body.title);
+//         const { title, content, author_id } = req.body;
+//         sql = `INSERT INTO posts (title, content, author_id) VALUES (?, ?, ?)`;
+//         db.run(sql, [title, content, author_id],err => {
+//           if (err) {
+//             return res.status(300).json({message: err.message});
+//           }
+//           console.log('Post created successfully, by author_id: ', author_id, title);
+//         });
+//         return res.status(200).json({ message: 'Post created successfully' })
+//         } catch (error) {
+//       console.error(error.message);
+//       return res.status(400).json({ error: error.message })
+//     }
+
+// });
 
 
 // // API to add a comment to a post
