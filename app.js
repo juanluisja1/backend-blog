@@ -6,6 +6,7 @@ const db = require('./database');
 const cors = require('cors'); // Enable CORS
 const helmet = require("helmet"); // middleware for express
 const fs = require ("fs");
+const https = require("https");
 const app = express();
 const port = 3000;
 let sql;
@@ -16,8 +17,10 @@ app.use(bodyParser.json());
 //    origin: '*' // ['https://juanluisja.live/blog/',`http://localhost:${port}`]
 // }));
 
+//origin: ['http://127.0.0.1:5500','https://juanluisja.live/blog/'],
+
 app.use(cors({
-  origin: ['http://127.0.0.1:5500','https://juanluisja.live/blog/'],
+  origin: ['https://juanluisja.live','https://juanluisja.live/blog/'],
 }));
 // app.use(function (req, res, next) {
 //   req.header("content-type", "html/text");
