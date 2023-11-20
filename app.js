@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const db = require('./database');
 //const sanitize = require('sanitize'); // Sanitize user input
 const cors = require('cors'); // Enable CORS
+const helmet = require("helmet"); // middleware for express
+const fs = require ("fs");
 const app = express();
 const port = 3000;
 let sql;
@@ -25,6 +27,7 @@ app.use(cors({
 //   next();
 // });
 
+app.use(helmet());
 
 
 // // Serve the HTML file blogs
@@ -247,7 +250,37 @@ ORDER BY post_id, comment_id;`;
   }
 })
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+/*
+
+
+# Set the path to your log file
+LOG_PATH="/var/log/certbot-renewal.log"
+
+# crontab logs
+/var/log/certbot-CronJob_errors.log
+
+# Log the current date and time
+echo "Renewal script started at $(date)" >> "$LOG_PATH"
+
+CERT_PATH="/etc/ssl/certs/nginx.crt"
+KEY_PATH="/etc/ssl/private/nginx.key"
+*/
+
+// https.createServer({
+//   key: fs.readFileSync("/etc/ssl/certs/nginx.crt");
+//   cert: fs.readFileSync("/etc/ssl/private/nginx.key");
+// },app).listen
+
+//https
+https.createServer({
+  key: fs.readFileSync("/etc/ssl/certs/nginx.crt"),
+  cert: fs.readFileSync("/etc/ssl/private/nginx.key"),
+}, app).listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
+
+//http
+// app.listen(port, () => {
+//   console.log(`Server is running on http://localhost:${port}`);
+// });
 
