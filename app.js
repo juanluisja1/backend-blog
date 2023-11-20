@@ -274,10 +274,19 @@ KEY_PATH="/etc/ssl/private/nginx.key"
 //   cert: fs.readFileSync("/etc/ssl/private/nginx.key");
 // },app).listen
 
+/**
+
+cert = /etc/letsencrypt/live/blog.juanluisja.live-0001/cert.pem
+privkey = /etc/letsencrypt/live/blog.juanluisja.live-0001/privkey.pem
+
+ */
+
+
+
 //https
 https.createServer({
-  key: fs.readFileSync("/etc/ssl/certs/nginx.crt"),
-  cert: fs.readFileSync("/etc/ssl/private/nginx.key"),
+  key: fs.readFileSync("/etc/letsencrypt/live/blog.juanluisja.live-0001/privkey.pem"),
+  cert: fs.readFileSync("/etc/letsencrypt/live/blog.juanluisja.live-0001/cert.pem"),
 }, app).listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
